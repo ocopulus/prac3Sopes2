@@ -43,6 +43,7 @@ static const char *dirpath = "/home/juan/.fs";
 
 static int practica3Juan_getattr(const char *path, struct stat *stbuf)
 {
+  printf("1 ");
   int res;
   char fpath[1000];
   sprintf(fpath, "%s%s", dirpath, path);
@@ -55,6 +56,7 @@ static int practica3Juan_getattr(const char *path, struct stat *stbuf)
 
 static int practica3Juan_access(const char *path, int mask)
 {
+  printf("2 ");
   int res;
   char fpath[1000];
   sprintf(fpath, "%s%s", dirpath, path);
@@ -65,23 +67,10 @@ static int practica3Juan_access(const char *path, int mask)
   return 0;
 }
 
-static int practica3Juan_readlink(const char *path, char *buf, size_t size)
-{
-  int res;
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  res = readlink(fpath, buf, size - 1);
-  if (res == -1)
-    return -errno;
-
-  buf[res] = '\0';
-  return 0;
-}
-
-
 static int practica3Juan_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
            off_t offset, struct fuse_file_info *fi)
 {
+  printf("4 ");
   DIR *dp;
   struct dirent *de;
 
@@ -108,6 +97,7 @@ static int practica3Juan_readdir(const char *path, void *buf, fuse_fill_dir_t fi
 
 static int practica3Juan_mknod(const char *path, mode_t mode, dev_t rdev)
 {
+  printf("5 ");
   int res;
   char fpath[1000];
   sprintf(fpath, "%s%s", dirpath, path);
@@ -127,6 +117,7 @@ static int practica3Juan_mknod(const char *path, mode_t mode, dev_t rdev)
 
 static int practica3Juan_mkdir(const char *path, mode_t mode)
 {
+  printf("6 ");
   int res;
   char fpath[1000];
   sprintf(fpath, "%s%s", dirpath, path);
@@ -139,6 +130,7 @@ static int practica3Juan_mkdir(const char *path, mode_t mode)
 
 static int practica3Juan_unlink(const char *path)
 {
+  printf("7 ");
   int res;
   char fpath[1000];
   sprintf(fpath, "%s%s", dirpath, path);
@@ -151,6 +143,7 @@ static int practica3Juan_unlink(const char *path)
 
 static int practica3Juan_rmdir(const char *path)
 {
+  printf("8 ");
   int res;
   char fpath[1000];
   sprintf(fpath, "%s%s", dirpath, path);
@@ -161,100 +154,9 @@ static int practica3Juan_rmdir(const char *path)
   return 0;
 }
 
-static int practica3Juan_symlink(const char *from, const char *to)
-{
-  int res;
-  char ffrom[1000];
-  sprintf(ffrom, "%s%s", dirpath, from);
-  char fto[1000];
-  sprintf(fto, "%s%s", dirpath, to);
-  res = symlink(ffrom, fto);
-  if (res == -1)
-    return -errno;
-
-  return 0;
-}
-
-static int practica3Juan_rename(const char *from, const char *to)
-{
-  int res;
-  char ffrom[1000];
-  sprintf(ffrom, "%s%s", dirpath, from);
-  char fto[1000];
-  sprintf(fto, "%s%s", dirpath, to);
-  res = rename(ffrom, fto);
-  if (res == -1)
-    return -errno;
-
-  return 0;
-}
-
-static int practica3Juan_link(const char *from, const char *to)
-{
-  int res;
-  char ffrom[1000];
-  sprintf(ffrom, "%s%s", dirpath, from);
-  char fto[1000];
-  sprintf(fto, "%s%s", dirpath, to);
-  res = link(ffrom, fto);
-  if (res == -1)
-    return -errno;
-
-  return 0;
-}
-
-static int practica3Juan_chmod(const char *path, mode_t mode)
-{
-  int res;
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  res = chmod(fpath, mode);
-  if (res == -1)
-    return -errno;
-
-  return 0;
-}
-
-static int practica3Juan_chown(const char *path, uid_t uid, gid_t gid)
-{
-  int res;
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  res = lchown(fpath, uid, gid);
-  if (res == -1)
-    return -errno;
-
-  return 0;
-}
-
-static int practica3Juan_truncate(const char *path, off_t size)
-{
-  int res;
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  res = truncate(fpath, size);
-  if (res == -1)
-    return -errno;
-
-  return 0;
-}
-
-#ifdef HAVE_UTIMENSAT
-static int practica3Juan_utimens(const char *path, const struct timespec ts[2])
-{
-  int res;
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  res = utimensat(0, fpath, ts, AT_SYMLINK_NOFOLLOW);
-  if (res == -1)
-    return -errno;
-
-  return 0;
-}
-#endif
-
 static int practica3Juan_open(const char *path, struct fuse_file_info *fi)
 {
+  printf("16 ");
   int res;
   char fpath[1000];
   sprintf(fpath, "%s%s", dirpath, path);
@@ -269,6 +171,7 @@ static int practica3Juan_open(const char *path, struct fuse_file_info *fi)
 static int practica3Juan_read(const char *path, char *buf, size_t size, off_t offset,
         struct fuse_file_info *fi)
 {
+  printf("17 ");
   int fd;
   int res;
   char fpath[1000];
@@ -289,6 +192,7 @@ static int practica3Juan_read(const char *path, char *buf, size_t size, off_t of
 static int practica3Juan_write(const char *path, const char *buf, size_t size,
          off_t offset, struct fuse_file_info *fi)
 {
+  printf("18 ");
   int fd;
   int res;
   char fpath[1000];
@@ -306,140 +210,46 @@ static int practica3Juan_write(const char *path, const char *buf, size_t size,
   return res;
 }
 
-static int practica3Juan_statfs(const char *path, struct statvfs *stbuf)
-{
-  int res;
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  res = statvfs(fpath, stbuf);
-  if (res == -1)
-    return -errno;
-
-  return 0;
-}
-
 static int practica3Juan_release(const char *path, struct fuse_file_info *fi)
 {
+  printf("20 ");
   (void) path;
   (void) fi;
   return 0;
 }
-
-static int practica3Juan_fsync(const char *path, int isdatasync,
-         struct fuse_file_info *fi)
-{
-  (void) path;
-  (void) isdatasync;
-  (void) fi;
-  return 0;
-}
-
-#ifdef HAVE_POSIX_FALLOCATE
-static int practica3Juan_fallocate(const char *path, int mode,
-      off_t offset, off_t length, struct fuse_file_info *fi)
-{
-  int fd;
-  int res;
-
-  (void) fi;
-
-  if (mode)
-    return -EOPNOTSUPP;
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  fd = open(fpath, O_WRONLY);
-  if (fd == -1)
-    return -errno;
-
-  res = -posix_fallocate(fd, offset, length);
-
-  close(fd);
-  return res;
-}
-#endif
-
-#ifdef HAVE_SETXATTR
-static int practica3Juan_setxattr(const char *path, const char *name, const char *value,
-      size_t size, int flags)
-{
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  int res = lsetxattr(fpath, name, value, size, flags);
-  if (res == -1)
-    return -errno;
-  return 0;
-}
-
-static int practica3Juan_getxattr(const char *path, const char *name, char *value,
-      size_t size)
-{
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  int res = lgetxattr(fpath, name, value, size);
-  if (res == -1)
-    return -errno;
-  return res;
-}
-
-static int practica3Juan_listxattr(const char *path, char *list, size_t size)
-{
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  int res = llistxattr(fpath, list, size);
-  if (res == -1)
-    return -errno;
-  return res;
-}
-
-static int practica3Juan_removexattr(const char *path, const char *name)
-{
-  char fpath[1000];
-  sprintf(fpath, "%s%s", dirpath, path);
-  int res = lremovexattr(fpath, name);
-  if (res == -1)
-    return -errno;
-  return 0;
-}
-#endif /* HAVE_SETXATTR */
 
 static struct fuse_operations practica3Juan_operations = {
   .getattr  = practica3Juan_getattr,
   .access   = practica3Juan_access,
-  .readlink = practica3Juan_readlink,
   .readdir  = practica3Juan_readdir,
   .mknod    = practica3Juan_mknod,
   .mkdir    = practica3Juan_mkdir,
-  .symlink  = practica3Juan_symlink,
   .unlink   = practica3Juan_unlink,
   .rmdir    = practica3Juan_rmdir,
-  .rename   = practica3Juan_rename,
-  .link   = practica3Juan_link,
-  .chmod    = practica3Juan_chmod,
-  .chown    = practica3Juan_chown,
-  .truncate = practica3Juan_truncate,
-#ifdef HAVE_UTIMENSAT
-  .utimens  = practica3Juan_utimens,
-#endif
   .open   = practica3Juan_open,
   .read   = practica3Juan_read,
   .write    = practica3Juan_write,
-  .statfs   = practica3Juan_statfs,
   .release  = practica3Juan_release,
-  .fsync    = practica3Juan_fsync,
-#ifdef HAVE_POSIX_FALLOCATE
-  .fallocate  = practica3Juan_fallocate,
-#endif
-#ifdef HAVE_SETXATTR
-  .setxattr = practica3Juan_setxattr,
-  .getxattr = practica3Juan_getxattr,
-  .listxattr  = practica3Juan_listxattr,
-  .removexattr  = practica3Juan_removexattr,
-#endif
 };
 
 int main(int argc, char *argv[])
 {
   umask(0);
+  system("rm -r /home/juan/.fs/*");
+  practica3Juan_mkdir("/usr", 0777);
+  practica3Juan_mkdir("/usr/desktop", 0777);
+  practica3Juan_mkdir("/tmp", 0777);
+  practica3Juan_mkdir("/etc", 0777);
+  practica3Juan_mkdir("/home", 0777);
+  practica3Juan_mkdir("/lib", 0777);
+
+  char *text = "#Juan Jose Lemus Vasquez\n";
+  practica3Juan_mknod("/usr/nombre_estudiante", 0777, 020);
+  practica3Juan_write("/usr/nombre_estudiante", text, strlen(text), 0, NULL);
+
+  char *text2 = "#Juan Jose Lemus Vasquez\n#201404412\n";
+  practica3Juan_mknod("/home/archivo", 0777, 020);
+  practica3Juan_write("/home/archivo", text2, strlen(text2), 0, NULL);
   return fuse_main(argc, argv, &practica3Juan_operations, NULL);
 }
 
